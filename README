@@ -1,3 +1,26 @@
+This is a fork from [xv6](https://github.com/mit-pdos/xv6-public)
+This was a project assigned to me in my operating systems course. My main focus was to:
+1. Familiarize myself with how operating systems work and how they're built.
+2. Familiarize myself with process scheduling
+3. Upgrade the primitive scheduler
+4. Log the scheduling data to the xv6 terminal
+The new scheduler is the simplified O(1) scheduler. O(1) scheduler was used by the [Linux kernel](http://www.informit.com/articles/article.aspx?p=101760&seqNum=2).
+The policy used by the O(1) scheduler relies on active and expired queues of processes to
+achieve constant scheduling time. Each process in the active queue (AQ) is given a fixed time quantum
+30 ms, after which it is preempted and moved to the expired queue (EQ). Once all the tasks from the
+active queue have exhausted their time quantum (in FIFO order) and have been moved to the expired
+queue, an queue switch takes place. Because the queues are accessed only via pointer, switching them
+is as fast as swapping two pointers. This switch makes the active queue the new empty expired queue,
+while the expired queue becomes the active queue whose time quantum will be reset as 30 ms.
+In the original O(1) scheduler in Linux, each process could be assigned with different priorities. For
+our simplified version, we assume all processes in the active queue have the same priority (low priority)
+except all newly created processes (high priority). Actually, we maintain another queue – called first-
+time queue (FQ) – which maintains all newly-created processes in the FCFS order. Once each new
+process exhausts its time quantum of 10 ms, it will be put into the active queue (AQ). The purpose here is to
+give all newly-created processes the highest priority.
+Therefore, after each timer interrupt is triggered, the scheduler first checks the FQ, if it is not empty, apply RR in the FQ; otherwise, apply RR in the AQ.
+
+
 xv6 is a re-implementation of Dennis Ritchie's and Ken Thompson's Unix
 Version 6 (v6).  xv6 loosely follows the structure and style of v6,
 but is implemented for a modern x86-based multiprocessor using ANSI C.
