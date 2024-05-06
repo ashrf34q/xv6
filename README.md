@@ -1,6 +1,6 @@
 ﻿# xv6
 
-This is a fork from [xv6](https://github.com/mit-pdos/xv6-public)
+This is a fork from [xv6](https://github.com/mit-pdos/xv6-public).
 This was a project assigned to me in my operating systems course. My main focus was to:
 
 1. Familiarize myself with how operating systems work and how they're built.
